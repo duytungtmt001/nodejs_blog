@@ -5,6 +5,8 @@ const port = 3004;
 const morgan = require('morgan');
 const path = require('path')
 
+const route = require('./routes');
+
 // Template Engine
 app.engine('hbs', handlebars({
         extname: '.hbs',
@@ -17,16 +19,16 @@ app.set('views', 'src/resources/views');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.urlencoded({
+    extended: true
+}));
+app.use(express.json());
+
 // HTTP Logger
 app.use(morgan('combined'));
 
-app.get('/', (req, res) => {
-    res.render('home');
-});
-
-app.get('/news', (req, res) => {
-    res.render('news');
-});
+// Route init
+route(app);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
