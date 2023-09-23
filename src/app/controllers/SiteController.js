@@ -1,16 +1,17 @@
 const Movie = require('../models/Movie');
+const {multipleMongooseToObject, mongooseToObject} = require('../../util/mongoose')
 
 class SiteController {
     // [GET] /
-    index(req, res) {
+    index(req, res, next) {
         // res.render('home');
         Movie.find({})
-            .then((result) => {
-                res.json(result);
+            .then(movies => {
+                res.render('home', {
+                    movies: multipleMongooseToObject(movies),
+                });
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch(next);                           
     }
 
     // [GET] /search
