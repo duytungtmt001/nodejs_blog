@@ -1,23 +1,26 @@
 <div class='mt-4'>
     <h3>Danh sách phim</h3>
-    <table class='table mt-4 table-bordered'>
+    <table class='table mt-4 table-bordered align-middle'>
         <thead>
             <tr>
                 <th scope='col'>STT</th>
                 <th scope='col'>Name</th>
                 <th scope='col'>Image</th>
                 <th scope='col'>Description</th>
-                <th scope='col'>Create At</th>
+                <th scope='col'>Created At</th>
+                <th scope='col' colspan="2">Actions</th>
             </tr>
         </thead>
         <tbody>
             {{#each movies}}
                 <tr>
-                    <th scope='row'>{{@index}}</th>
+                    <th scope='row'>{{sum @index 1}}</th>
                     <td>{{this.name}}</td>
                     <td><img src='{{this.image}}' alt='' style='width: 50px' /></td>
                     <td>{{this.description}}</td>
-                    <td>{{this.createAt}}</td>
+                    <td>{{this.createdAt}}</td>
+                    <td><a href="/movies/{{this._id}}/edit" type="button" class="btn btn-warning">Sửa</a></td>
+                    <td><a href="/movies/" type="button" class="btn btn-danger">Xóa</a></td>
                 </tr>
             {{/each}}
         </tbody>

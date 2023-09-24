@@ -14,6 +14,11 @@ class MovieController {
         res.render('movies/create');
     }
 
+    // [GET] /movies/:id/edit
+    edit(req, res, next) {
+        res.render('movies/edit');
+    }
+
     // [POST] /movies/store
     store(req, res, next) {
         const movie = new Movie(req.body);
