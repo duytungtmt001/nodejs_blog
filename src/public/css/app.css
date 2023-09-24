@@ -3,3 +3,10 @@ h1 {
 
 .card-movie-item {
   margin-top: 16px; }
+
+.user-avt {
+  width: 28px;
+  height: 28px;
+  border-radius: 99999999999999px;
+  object-fit: cover;
+  margin-right: 4px; }

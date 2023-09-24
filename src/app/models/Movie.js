@@ -5,12 +5,17 @@ const Schema = mongoose.Schema;
 const slug = require('mongoose-slug-updater');
 mongoose.plugin(slug);
 
-const Movie = new Schema({
-    name: { type: String, maxLength: 255 },
-    year: { type: Number, maxLength: 32 },
-    image: { type: String, maxLength: 255 },
-    description: { type: String},
-    slug: { type: String, slug: "name" }
-});
+const Movie = new Schema(
+    {
+        name: { type: String, maxLength: 255 },
+        year: { type: Number, maxLength: 32 },
+        image: { type: String, maxLength: 255 },
+        description: { type: String },
+        slug: { type: String, slug: 'name' },
+    },
+    {
+        timestamps: true,
+    },
+);
 
 module.exports = mongoose.model('Movie', Movie);
