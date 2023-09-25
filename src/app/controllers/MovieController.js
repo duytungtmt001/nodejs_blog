@@ -1,5 +1,5 @@
 const Movie = require('../models/Movie');
-const {multipleMongooseToObject, mongooseToObject} = require('../../util/mongoose')
+const { multipleMongooseToObject, mongooseToObject } = require('../../util/mongoose');
 
 class MovieController {
     // [GET] /movies/:slug
@@ -16,7 +16,20 @@ class MovieController {
 
     // [GET] /movies/:id/edit
     edit(req, res, next) {
-        res.render('movies/edit');
+        Movie.findById(req.params.id)
+            .then((movie) => {
+                res.render('movies/edit', {
+                    movie: mongooseToObject(movie),
+                });
+            })
+            .catch(next);
+    }
+
+    // [PUT] /movies/:id
+    update(req, res, next) {
+        Movie.updateOne({ _id: req.params.id }, req.body)
+            .then(() => res.redirect('/me/stored/movies'))
+            .catch(next);
     }
 
     // [POST] /movies/store
