@@ -6,6 +6,7 @@ const moviesController = require('../app/controllers/MovieController');
 router.get('/create', moviesController.create);
 router.post('/store', moviesController.store);
 router.get('/:id/edit', moviesController.edit);
+router.delete('/:id', moviesController.delete);
 router.put('/:id', moviesController.update);
 router.get('/:slug', moviesController.show);
 

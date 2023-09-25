@@ -32,6 +32,13 @@ class MovieController {
             .catch(next);
     }
 
+    // [DELETE] /movies/:id
+    delete(req, res, next) {
+        Movie.deleteOne({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
     // [POST] /movies/store
     store(req, res, next) {
         const movie = new Movie(req.body);

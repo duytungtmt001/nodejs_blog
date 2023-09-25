@@ -20,9 +20,50 @@
                     <td>{{this.description}}</td>
                     <td>{{this.createdAt}}</td>
                     <td><a href="/movies/{{this._id}}/edit" type="button" class="btn btn-warning">Sửa</a></td>
-                    <td><a href="/movies/" type="button" class="btn btn-danger">Xóa</a></td>
+                    <td><a href="/movies/" type="button" class="btn btn-danger" data-bs-id="{{this._id}}" data-bs-toggle="modal" data-bs-target="#deleteModal">Xóa</a></td>
                 </tr>
             {{/each}}
         </tbody>
     </table>
 </div>
+
+{{!-- Delete form --}}
+<form method='POST' name="delete-form"></form>
+
+{{!-- Confirm Delete movie --}}
+<div class="modal fade" id="deleteModal" tabindex="-1" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa phim này ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+                <button id="btn-delete-movie"  type="button" class="btn btn-danger">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let movieId;
+    const btnDeleteMovie = document.getElementById('btn-delete-movie');
+    const deleteForm = document.forms['delete-form'];
+
+    const deleteModal = document.getElementById('deleteModal')
+        if (deleteModal) {
+            deleteModal.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget
+                movieId = button.getAttribute('data-bs-id')
+            })
+        }
+    
+    btnDeleteMovie.onclick = () => {
+        deleteForm.action = `/movies/${movieId}?_method=DELETE`;
+        deleteForm.submit();
+    }
+</script>

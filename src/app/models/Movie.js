@@ -11,7 +11,7 @@ const Movie = new Schema(
         year: { type: Number, maxLength: 32 },
         image: { type: String, maxLength: 255 },
         description: { type: String },
-        slug: { type: String, slug: 'name' },
+        slug: { type: String, slug: 'name', unique: true },
     },
     {
         timestamps: true,
