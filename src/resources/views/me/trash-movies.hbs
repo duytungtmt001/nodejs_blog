@@ -1,7 +1,7 @@
 <div class='mt-4'>
     <div>
-        <h3>Danh sách phim</h3>
-        <a href="/me/trash/movies">Thùng rác</a>
+        <h3>Danh sách phim đã xóa</h3>
+        <a href="/me/stored/movies">Danh sách phim</a>
     </div>
     <table class='table mt-4 table-bordered align-middle'>
         <thead>
@@ -16,21 +16,22 @@
         </thead>
         <tbody>
             {{#each movies}}
-                <tr>
-                    <th scope='row'>{{sum @index 1}}</th>
-                    <td>{{this.name}}</td>
-                    <td><img src='{{this.image}}' alt='' style='width: 50px' /></td>
-                    <td>{{this.description}}</td>
-                    <td>{{this.createdAt}}</td>
-                    <td><a href="/movies/{{this._id}}/edit" type="button" class="btn btn-warning">Sửa</a></td>
-                    <td><a href="/movies/" type="button" class="btn btn-danger" data-bs-id="{{this._id}}" data-bs-toggle="modal" data-bs-target="#deleteModal">Xóa</a></td>
-                </tr>
+            <tr>
+                <th scope='row'>{{sum @index 1}}</th>
+                <td>{{this.name}}</td>
+                <td><img src='{{this.image}}' alt='' style='width: 50px' /></td>
+                <td>{{this.description}}</td>
+                <td>{{this.createdAt}}</td>
+                <td><a href="" type="button" data-ok="{{this._id}}" class="btn btn-warning btn-restore">Khôi phục</a></td>
+                <td><a href="/movies/" type="button" class="btn btn-danger" data-bs-id="{{this._id}}"
+                        data-bs-toggle="modal" data-bs-target="#deleteModal">Xóa vĩnh viễn</a></td>
+            </tr>
 
             {{else}}
             <tr>
                 <td colspan="6" class="text-center">
-                    Bạn chưa thêm bộ phim nào!
-                    <a href="/movies/create">Thêm phim mới</a>
+                    Thùng rác trống
+                    <a href="/me/stored/movies">Danh sách khóa học</a>
                 </td>
             </tr>
             {{/each}}
@@ -41,8 +42,11 @@
 {{!-- Delete form --}}
 <form method='POST' name="delete-form"></form>
 
+{{!-- Restore form --}}
+<form method='POST' name="restore-form"></form>
+
 {{!-- Confirm Delete movie --}}
-<div class="modal fade" id="deleteModal" tabindex="-1" >
+<div class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -54,7 +58,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
-                <button id="btn-delete-movie"  type="button" class="btn btn-danger">Xóa</button>
+                <button id="btn-delete-movie" type="button" class="btn btn-danger">Xóa</button>
             </div>
         </div>
     </div>
@@ -64,17 +68,27 @@
     let movieId;
     const btnDeleteMovie = document.getElementById('btn-delete-movie');
     const deleteForm = document.forms['delete-form'];
+    const restoreForm = document.forms['restore-form'];
+    const restoreBtn = $('.btn-restore');
 
     const deleteModal = document.getElementById('deleteModal')
-        if (deleteModal) {
-            deleteModal.addEventListener('show.bs.modal', event => {
-                const button = event.relatedTarget
-                movieId = button.getAttribute('data-bs-id')
-            })
-        }
-    
+    if (deleteModal) {
+        deleteModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget
+            movieId = button.getAttribute('data-bs-id')
+        })
+    }
+
     btnDeleteMovie.onclick = () => {
         deleteForm.action = `/movies/${movieId}?_method=DELETE`;
         deleteForm.submit();
     }
+
+    restoreBtn.click((e) => {
+        e.preventDefault()
+        const movieRestoreId = $(this).data("data", "ok");
+        console.log(movieRestoreId)
+        
+    })
+
 </script>

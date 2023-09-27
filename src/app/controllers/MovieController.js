@@ -14,6 +14,12 @@ class MovieController {
         res.render('movies/create');
     }
 
+    // [POST] /movies/store
+    store(req, res, next) {
+        const movie = new Movie(req.body);
+        movie.save().then(() => res.redirect(`/`));
+    }
+
     // [GET] /movies/:id/edit
     edit(req, res, next) {
         Movie.findById(req.params.id)
@@ -34,15 +40,16 @@ class MovieController {
 
     // [DELETE] /movies/:id
     delete(req, res, next) {
-        Movie.deleteOne({ _id: req.params.id })
+        Movie.delete({ _id: req.params.id })
             .then(() => res.redirect('back'))
             .catch(next);
     }
 
-    // [POST] /movies/store
-    store(req, res, next) {
-        const movie = new Movie(req.body);
-        movie.save().then(() => res.redirect(`/`));
+    // [PATCH] /movies/:id/restore    
+    restore(req, res, next) {
+        Movie.restore({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
     }
 }
 

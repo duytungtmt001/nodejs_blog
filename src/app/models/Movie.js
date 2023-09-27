@@ -18,4 +18,8 @@ const Movie = new Schema(
     },
 );
 
+// Mongoose Soft Delete
+const mongooseDelete = require('mongoose-delete');
+Movie.plugin(mongooseDelete, {overrideMethods: 'all', deletedAt: true});
+
 module.exports = mongoose.model('Movie', Movie);
