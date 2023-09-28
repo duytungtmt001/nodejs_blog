@@ -17,7 +17,10 @@ class MovieController {
     // [POST] /movies/store
     store(req, res, next) {
         const movie = new Movie(req.body);
-        movie.save().then(() => res.redirect(`/`));
+        movie
+            .save()
+            .then(() => res.redirect(`/me/stored/movies`))
+            .catch(next);
     }
 
     // [GET] /movies/:id/edit
@@ -45,11 +48,31 @@ class MovieController {
             .catch(next);
     }
 
-    // [PATCH] /movies/:id/restore    
+    // [PATCH] /movies/:id/restore
     restore(req, res, next) {
         Movie.restore({ _id: req.params.id })
             .then(() => res.redirect('back'))
             .catch(next);
+    }
+
+    // [DELETE] /movies/:id/restore
+    forceDelete(req, res, next) {
+        Movie.deleteOne({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
+    // [POST] /movies/handle-form-actions
+    handleFormActions(req, res, next) {
+        switch(req.body.action) {
+            case 'delete': 
+                Movie.delete({ _id: { $in: req.body.movieIds } })
+                    .then(() => res.redirect('back'))
+                    .catch(next);
+                break;
+            default: 
+                res.json({message: "Action is invalid"})
+        }
     }
 }
 

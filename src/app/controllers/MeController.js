@@ -4,13 +4,15 @@ const { multipleMongooseToObject } = require('../../util/mongoose');
 class MeController {
     // [GET] /stored/movies
     storedMovies(req, res, next) {
-        Movie.find()
-            .then((movies) =>
+        Promise.all([Movie.find(), Movie.countDocumentsWithDeleted({ deleted: true })])
+            .then(([movies, count]) => {
                 res.render('me/stored-movies', {
-                    movies: multipleMongooseToObject(movies),
-                }),
-            )
-            .catch(next);
+                    count,
+                    movies: multipleMongooseToObject(movies)
+                });
+            })
+            .catch(next)
+        
     }
 
     // [POST] /stored/blogs
@@ -20,7 +22,7 @@ class MeController {
 
     // [GET] /trash/movies
     trashMovies(req, res, next) {
-        Movie.findDeleted({})
+        Movie.findWithDeleted({deleted: true})
             .then((movies) => res.render('me/trash-movies', {
                 movies: multipleMongooseToObject(movies)
             }))

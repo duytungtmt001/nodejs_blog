@@ -15,3 +15,49 @@ h1 {
     object-fit: cover;
     margin-right: 4px;
 }
+
+.title-list-movie,
+.title-list-trash {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    
+}
+
+.list-movie--right,
+.list-trash--right {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #000;
+
+    
+    span {
+        margin-left: 8px;
+    }
+    
+    .list-movie__trash,
+    .list-trash__list {
+        color: #000;
+        font-size: 26px;
+    }
+}    
+
+.trash-icon-wrap {
+    position: relative;
+}
+
+.quantity-trash {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: red;
+    color: #fff;
+}
